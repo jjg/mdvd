@@ -4,6 +4,41 @@
 	</head>
 	<body>
 		<h1>mdvd</h1>
+		<video src="http://localhost:8090/dvd">
+		</video>
+
+		<button onClick="pause()">pause</button>
+
+		<script>
+
+			function pause(){
+
+				// send http request to api to issue pause command
+
+				console.log('sending pause command');
+
+				var pauseReq = new XMLHttpRequest();
+				
+				pauseReq.onreadystatechange = pauseResponse;
+				pauseReq.open('GET', 'http://localhost:5000/command/pause', true);
+				pauseReq.send();
+
+				function pauseResponse(){
+					
+					console.log(this.readyState);
+
+					if(this.readyState == 4){
+						if(this.status == 200){
+							
+							console.log('pause request sucessful');
+
+							console.log(this.responseText);
+						}
+					}
+				}
+			}
+
+		</script>
 	</body>
 </html>
 

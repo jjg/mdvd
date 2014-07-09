@@ -13,7 +13,7 @@ function processCommand(req, res, next){
 	// debug
 	console.log('received command: ' + req.params.commandName);
 
-	mplayer.stdin.write(req.params.commandName);
+	mplayer.stdin.write(req.params.commandName + '\n');
 
 	res.send(200);
 	return next();
