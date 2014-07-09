@@ -4,7 +4,7 @@ var spawn = require('child_process').spawn;
 // init server
 var server = restify.createServer();
 
-// todo: init mplayer
+// init mplayer
 var mplayer = spawn('/usr/bin/mplayer',['dvd:////dev/dvd','-slave']);
 
 // handlers
