@@ -7,30 +7,44 @@
 		<video src="http://localhost:8090/dvd.webm">
 		</video>
 
-		<button onClick="pause()">pause</button>
+		<br/>
+
+		<button onClick="sendCommand('pause')">pause</button>
+		<button onClick="sendCommand('menu')">menu</button>
+		<button onClick="sendCommand('up')">up</button>
+		<button onClick="sendCommand('down')">down</button>
+		<button onClick="sendCommand('left')">left</button>
+		<button onClick="sendCommand('right')">right</button>
+		<button onClick="sendCommand('select')">select</button>
+		<button onClick="sendCommand('previous')">previous</button>
 
 		<script>
 
-			function pause(){
+			function sendCommand(command){
 
 				// send http request to api to issue pause command
 
-				console.log('sending pause command');
+				console.log('sending ' + command + ' command');
+
+				var encCommand = command;
+				if(command != 'pause'){
+					encCommand = 'dvdnav ' + command + '\n';
+				}
 
 				var pauseReq = new XMLHttpRequest();
 				
-				pauseReq.onreadystatechange = pauseResponse;
-				pauseReq.open('GET', 'http://localhost:5000/command/pause', true);
+				pauseReq.onreadystatechange = commandResponse;
+				pauseReq.open('GET', 'http://localhost:5000/command/' + encCommand, true);
 				pauseReq.send();
 
-				function pauseResponse(){
+				function commandResponse(){
 					
 					console.log(this.readyState);
 
 					if(this.readyState == 4){
 						if(this.status == 200){
 							
-							console.log('pause request sucessful');
+							console.log(command + ' request sucessful');
 
 							console.log(this.responseText);
 						}
