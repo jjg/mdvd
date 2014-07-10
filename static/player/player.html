@@ -4,7 +4,7 @@
 	</head>
 	<body>
 		<h1>mdvd</h1>
-		<video src="http://localhost:8090/dvd.webm">
+		<video src="http://10.0.1.81:8090/dvd.webm" autoplay>
 		</video>
 
 		<br/>
@@ -22,7 +22,7 @@
 
 			function sendCommand(command){
 
-				// send http request to api to issue pause command
+				// send http request to api to issue pause
 
 				console.log('sending ' + command + ' command');
 
@@ -34,7 +34,7 @@
 				var pauseReq = new XMLHttpRequest();
 				
 				pauseReq.onreadystatechange = commandResponse;
-				pauseReq.open('GET', 'http://localhost:5000/command/' + encCommand, true);
+				pauseReq.open('GET', '/command/' + encCommand, true);
 				pauseReq.send();
 
 				function commandResponse(){
