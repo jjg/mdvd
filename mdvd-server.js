@@ -32,7 +32,7 @@ server.get(/\/player\/?.*/, restify.serveStatic({
 }));
 
 // start the api server
-var port = process.env.port || 5000;
+var port = process.env.port || 5001;
 server.listen(port, function(){
 	console.log('%s listening at ', server.name, server.url);
 });
