@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<title>mdvd player</title>
+	</head>
+	<body>
+		<h1>mdvd</h1>
+		<video src="http://71.87.56.184:8090/dvd.webm" autoplay>
+		</video>
+
+		<br/>
+
+		<button onClick="sendCommand('pause')">pause</button>
+		<button onClick="sendCommand('menu')">menu</button>
+		<button onClick="sendCommand('up')">up</button>
+		<button onClick="sendCommand('down')">down</button>
+		<button onClick="sendCommand('left')">left</button>
+		<button onClick="sendCommand('right')">right</button>
+		<button onClick="sendCommand('select')">select</button>
+		<button onClick="sendCommand('previous')">previous</button>
+
+		<script>
+
+			function sendCommand(command){
+
+				// send http request to api to issue pause
+
+				console.log('sending ' + command + ' command');
+
+				var encCommand = command;
+				if(command != 'pause'){
+					encCommand = 'dvdnav ' + command + '\n';
+				}
+
+				var pauseReq = new XMLHttpRequest();
+				
+				pauseReq.onreadystatechange = commandResponse;
+				pauseReq.open('GET', '/command/' + encCommand, true);
+				pauseReq.send();
+
+				function commandResponse(){
+					
+					console.log(this.readyState);
+
+					if(this.readyState == 4){
+						if(this.status == 200){
+							
+							console.log(command + ' request sucessful');
+
+							console.log(this.responseText);
+						}
+					}
+				}
+			}
+
+		</script>
+	</body>
+</html>
+

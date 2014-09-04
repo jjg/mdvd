@@ -5,7 +5,7 @@ var spawn = require('child_process').spawn;
 var server = restify.createServer();
 
 // init mplayer
-var mplayer = spawn('/usr/bin/mplayer',['dvdnav:////dev/dvd', '-slave']);
+var mplayer = spawn('/usr/bin/mplayer',['dvdnav:////dev/dvd', '-ao', 'pcm:file=audio.wav', '-vo', 'yuv4mpeg:file=video.y4m', '-slave']);
 
 // handlers
 function processCommand(req, res, next){
@@ -20,7 +20,7 @@ function processCommand(req, res, next){
 }
 
 mplayer.stdout.on('data', function(data){
-	console.log(data.toString());
+	//console.log(data.toString());
 });
 
 // endpoints
@@ -32,7 +32,7 @@ server.get(/\/player\/?.*/, restify.serveStatic({
 }));
 
 // start the api server
-var port = process.env.port || 5000;
+var port = process.env.port || 5001;
 server.listen(port, function(){
 	console.log('%s listening at ', server.name, server.url);
 });
