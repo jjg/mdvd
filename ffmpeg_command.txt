@@ -1,0 +1,1 @@
+~/bin/ffmpeg -re -i ./video.y4m -c:v libx264 -b:v 1M -f flv rtmp://localhost:12345/hls/mystream
