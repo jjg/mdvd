@@ -5,7 +5,7 @@ var spawn = require('child_process').spawn;
 var server = restify.createServer();
 
 // init mplayer
-var mplayer = spawn('/usr/bin/mplayer',['dvdnav:////dev/dvd', '-vo', 'yuv4mpeg:file=video.y4m', '-slave']);
+var mplayer = spawn('/usr/bin/mplayer',['dvdnav:////dev/dvd', '-vo', 'yuv4mpeg:file=/home/jason/mdvd/video.y4m', '-slave']);
 
 // handlers
 function processCommand(req, res, next){
