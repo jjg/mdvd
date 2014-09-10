@@ -18,6 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <unistd.h>
 #include <inttypes.h>
@@ -104,7 +105,8 @@ int main(int argc, char **argv) {
 
 								if (!output_fd) {
 										printf("Opening output...\n");
-										output_fd = open("libdvdnav.mpg", O_CREAT | O_WRONLY, S_IRWXU | S_IRWXG);
+										output_fd = open("readdvd.out", O_CREAT | O_WRONLY, S_IRWXU | S_IRWXG);
+									//	output_fd = open("readdvd.out", O_CREAT | O_WRONLY, S_IRWXU | S_IRWXG);
 										if (output_fd == -1) {
 												printf("Error opening output\n");
 												return 4;
