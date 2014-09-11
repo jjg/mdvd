@@ -73,10 +73,27 @@ int main(int argc, char **argv) {
 		printf("command: %s\n", command);
 		
 		// parse command
-		if(strcmp(command, "play") == 0){
+		if(strcmp(command, "exit") == 0){
+			printf("Exiting.\n");
+			
+		} else if(strcmp(command, "play") == 0){
 			printf("play command selected\n");
 		} else if(strcmp(command, "pause") == 0){
 			printf("pause command selected\n");
+		} else if(strcmp(command, "menu") == 0){
+			printf("menu command selected\n");
+		} else if(strcmp(command, "select") == 0){
+			printf("select command selected\n");
+		} else if(strcmp(command, "previous") == 0){
+			printf("previous command selected\n");
+		} else if(strcmp(command, "up") == 0){
+			printf("up command selected\n");
+		} else if(strcmp(command, "down") == 0){
+			printf("down command selected\n");
+		} else if(strcmp(command, "left") == 0){
+			printf("left command selected\n");
+		} else if(strcmp(command, "right") == 0){
+			printf("right command selected\n");
 		}
 
 		// return response
