@@ -61,10 +61,29 @@
 			function playChapter(chapter){
 
 				// debug
-				console.log('playing chapter ' + chapter);
+				console.log('requesting chapter ' + chapter);
 
 				// todo: play the selected chapter
+				var playChapterReq = new XMLHttpRequest();
+				playChapterReq.onreadystatechange = playChapterRes;
+				playChapterReq.open('GET', '/play/1/' + chapter + '/1', true);
+				playChapterReq.send();
 
+				function playChapterRes(){
+					if(this.readyState === 4){
+						if(this.status === 200){
+							console.log('playing requested chapter');
+
+							// todo: it may be necissary to re-initialize the client
+							// side of the playback viewer
+							dvdstream.load();
+							dvdstream.play();
+
+						} else {
+							console.log('error requesting chapter');
+						}
+					}
+				}
 			}
 
 			function sendCommand(command){

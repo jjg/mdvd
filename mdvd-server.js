@@ -14,7 +14,9 @@ function processCommand(req, res, next){
 	console.log('received command: ' + req.params.commandName);
 
 	switch(req.params.commandName){
+
 		case 'play':
+
 			// play the disc
  			if(!player){
         		player = spawn('./mplay_title', ['/dev/dvd', '1', '2', '1', 'mplay_title.out']);
@@ -45,6 +47,37 @@ player.stdout.on('data', function(data){
 });
 */
 
+function play(req, res, next){
+
+	// extract params
+	var title = req.params.title;
+	var chapter = req.params.chapter;
+	var angle = req.params.angle;
+
+	// debug
+	console.log('play');
+
+	console.log('title: ' + title);
+	console.log('chapter: ' + chapter);
+	console.log('angle: ' + angle);	
+
+	// stop the player if necissary
+	if(player){
+
+		// debug
+		console.log('killing existing player');
+
+		player.kill();
+		player = null;
+	}
+
+	// play the specified title
+	player = spawn('./mplay_title', ['/dev/dvd', title, chapter, angle, 'mplay_title.out']);
+
+	res.send(200);
+	return next();
+}
+
 function getTitles(req, res, next){
 
 	var titleInfo = spawn('./title_info', ['/dev/dvd']);
@@ -65,6 +98,7 @@ function getTitles(req, res, next){
 // endpoints
 server.get({path:'/command/:commandName', version:'1.0.0'}, processCommand);
 server.get({path:'/titles', version:'1.0.0'}, getTitles);
+server.get({path:'/play/:title/:chapter/:angle', version:'1.0.0'}, play);
 
 // static content
 server.get(/\/player\/?.*/, restify.serveStatic({
