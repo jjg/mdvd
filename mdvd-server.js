@@ -20,7 +20,7 @@ function processCommand(req, res, next){
 }
 
 mplayer.stdout.on('data', function(data){
-	//console.log(data.toString());
+	console.log(data.toString());
 });
 
 // endpoints
