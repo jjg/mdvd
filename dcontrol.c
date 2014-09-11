@@ -19,12 +19,35 @@
 
 // includes
 #include <stdio.h>
+#include <string.h>
+#include <dvdnav/dvdnav.h>
+
+// keep newlines out of command stream
+void strip_newline( char *str, int size )
+{
+    int i;
+
+    /* remove the null terminator */
+    for (  i = 0; i < size; ++i )
+    {
+        if ( str[i] == '\n' )
+        {
+            str[i] = '\0';
+
+            /* we're done, so just exit the function by returning */
+            return;
+        }
+    }
+    /* if we get all the way to here, there must not have been a newline! */
+}
 
 // parse command
 
 // return response
 
 int main(int argc, char **argv) {
+	
+	dvdnav_t *dvdnav;
 	
 	// check command-line arguments
 	if(argc < 2){
@@ -38,6 +61,22 @@ int main(int argc, char **argv) {
 	}
 	
 	// open dvd
+	/*
+	if(dvdnav_open(&dvdnav, argv[1]) != DVDNAV_STATUS_OK){
+		printf("Error opening DVD device %s.\n", argv[1]);
+		return 1;
+	}
+	*/
 	
 	// listen for commands
+	char command[20];
+	
+	while(strcmp(command, "quit") != 0){
+		
+		fgets(command, 20, stdin);
+		
+		strip_newline(command, 20);
+		
+		printf("command: %s\n", command);
+	}
 }
