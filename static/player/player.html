@@ -9,8 +9,6 @@
 
 		<button onClick="dvdstream.play()">enable</button>
 
-		<br/>
-
 		<button onClick="sendCommand('play')">play</button>
 		<button onClick="sendCommand('stop')">stop</button>
 		<button onClick="sendCommand('pause')">pause</button>
@@ -23,7 +21,51 @@
 		<button onClick="sendCommand('select')">select</button>
 		<button onClick="sendCommand('previous')">previous</button>
 
+		<ol id="chapterList"></ol>
+
 		<script>
+
+			function loadChapters(){
+
+				var titleReq = new XMLHttpRequest();
+
+				titleReq.onreadystatechange = titleRes;
+				titleReq.open('GET', '/titles', true);
+				titleReq.send();
+
+				function titleRes(){
+					if(this.readyState === 4){
+						if(this.status === 200){
+
+							var titleInfo = JSON.parse(this.responseText);
+
+							var chapters = titleInfo[0].chapters;
+
+							for(var i=0;i<chapters.length;i++){
+								
+								var chapter = chapters[i];
+
+								var chapterName = 'Chapter ' +  chapter.chapter;
+
+								// add chapters to chapter list
+								var chapterListItem = document.createElement('li');
+								chapterListItem.setAttribute('onclick', 'playChapter(\'' + chapter.chapter + '\')');
+								chapterListItem.innerHTML = chapterName;
+								chapterList.appendChild(chapterListItem);
+							}
+						}
+					}
+				}
+			}
+
+			function playChapter(chapter){
+
+				// debug
+				console.log('playing chapter ' + chapter);
+
+				// todo: play the selected chapter
+
+			}
 
 			function sendCommand(command){
 
@@ -67,6 +109,8 @@
 					}
 				}
 			}
+
+			loadChapters();
 
 		</script>
 	</body>
