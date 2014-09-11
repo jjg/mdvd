@@ -6,6 +6,9 @@
 	stream (unlike mplayer which seems only capable of outputting
 	separate streams when in slave mode)
 	
+	compilation:
+	gcc -o dvdtest dvdtest.c `dvdnav-config --cflags --libs`
+	
 	invocation:
 	dcontrol <device> <mpeg output file>
 	
@@ -24,6 +27,15 @@
 int main(int argc, char **argv) {
 	
 	// check command-line arguments
+	if(argc < 2){
+		printf("Specify DVD device and output file.\n");
+		return 1;
+	}
+	
+	if(argc < 3){
+		printf("Specify output file.\n");
+		return 1;
+	}
 	
 	// open dvd
 	
