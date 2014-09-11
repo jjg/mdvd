@@ -5,7 +5,8 @@ var spawn = require('child_process').spawn;
 var server = restify.createServer();
 
 // init mplayer
-var mplayer = spawn('/usr/bin/mplayer',['dvdnav:////dev/dvd', '-vo', 'yuv4mpeg:file=/home/jason/mdvd/video.y4m', '-slave']);
+//var mplayer = spawn('/usr/bin/mplayer',['dvdnav:////dev/dvd', '-vo', 'yuv4mpeg:file=/home/jason/mdvd/video.y4m', '-slave']);
+var player = spawn('/usr/local/bin/play_title', ['/dev/dvd', '1', '1', '1']);
 
 // handlers
 function processCommand(req, res, next){
@@ -13,13 +14,13 @@ function processCommand(req, res, next){
 	// debug
 	console.log('received command: ' + req.params.commandName);
 
-	mplayer.stdin.write(req.params.commandName + '\n');
+	player.stdin.write(req.params.commandName + '\n');
 
 	res.send(200);
 	return next();
 }
 
-mplayer.stdout.on('data', function(data){
+player.stdout.on('data', function(data){
 	console.log(data.toString());
 });
 
