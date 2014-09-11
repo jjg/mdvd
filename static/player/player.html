@@ -11,7 +11,10 @@
 
 		<br/>
 
+		<button onClick="sendCommand('play')">play</button>
+		<button onClick="sendCommand('stop')">stop</button>
 		<button onClick="sendCommand('pause')">pause</button>
+		<button onClick="sendCommand('resume')">resume</button>
 		<button onClick="sendCommand('menu')">menu</button>
 		<button onClick="sendCommand('up')">up</button>
 		<button onClick="sendCommand('down')">down</button>
@@ -28,15 +31,26 @@
 
 				console.log('sending ' + command + ' command');
 
-				var encCommand = command;
-				if(command != 'pause'){
-					encCommand = 'dvdnav ' + command + '\n';
+				// used to prevent fetching the stream before playback,
+				// and also to work around mobile device limitations
+				if(command === 'play'){
+					dvdstream.play();
+				}
+
+				// handle pausing client-side so we can continue to
+				// buffer data for playback
+				if(command === 'pause'){
+					dvdstream.pause();
+				}
+
+				if(command === 'resume'){
+					dvdstream.play();
 				}
 
 				var pauseReq = new XMLHttpRequest();
 				
 				pauseReq.onreadystatechange = commandResponse;
-				pauseReq.open('GET', '/command/' + encCommand, true);
+				pauseReq.open('GET', '/command/' + command, true);
 				pauseReq.send();
 
 				function commandResponse(){
