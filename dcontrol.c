@@ -27,23 +27,16 @@ void strip_newline( char *str, int size )
 {
     int i;
 
-    /* remove the null terminator */
+    // replace newline with terminator
     for (  i = 0; i < size; ++i )
     {
         if ( str[i] == '\n' )
         {
             str[i] = '\0';
-
-            /* we're done, so just exit the function by returning */
             return;
         }
     }
-    /* if we get all the way to here, there must not have been a newline! */
 }
-
-// parse command
-
-// return response
 
 int main(int argc, char **argv) {
 	
@@ -71,12 +64,21 @@ int main(int argc, char **argv) {
 	// listen for commands
 	char command[20];
 	
-	while(strcmp(command, "quit") != 0){
+	while(strcmp(command, "exit") != 0){
 		
 		fgets(command, 20, stdin);
 		
 		strip_newline(command, 20);
 		
 		printf("command: %s\n", command);
+		
+		// parse command
+		if(strcmp(command, "play") == 0){
+			printf("play command selected\n");
+		} else if(strcmp(command, "pause") == 0){
+			printf("pause command selected\n");
+		}
+
+		// return response
 	}
 }
