@@ -77,23 +77,23 @@ int main(int argc, char **argv) {
 			printf("Exiting.\n");
 			
 		} else if(strcmp(command, "play") == 0){
-			printf("play command selected\n");
+			printf("Play command selected\n");
 		} else if(strcmp(command, "pause") == 0){
-			printf("pause command selected\n");
+			printf("Pause command selected\n");
 		} else if(strcmp(command, "menu") == 0){
-			printf("menu command selected\n");
+			printf("Menu command selected\n");
 		} else if(strcmp(command, "select") == 0){
-			printf("select command selected\n");
+			printf("Select command selected\n");
 		} else if(strcmp(command, "previous") == 0){
-			printf("previous command selected\n");
+			printf("Previous command selected\n");
 		} else if(strcmp(command, "up") == 0){
-			printf("up command selected\n");
+			printf("Up command selected\n");
 		} else if(strcmp(command, "down") == 0){
-			printf("down command selected\n");
+			printf("Down command selected\n");
 		} else if(strcmp(command, "left") == 0){
-			printf("left command selected\n");
+			printf("Left command selected\n");
 		} else if(strcmp(command, "right") == 0){
-			printf("right command selected\n");
+			printf("Right command selected\n");
 		}
 
 		// return response
