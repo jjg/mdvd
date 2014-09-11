@@ -6,7 +6,7 @@ var server = restify.createServer();
 
 // init mplayer
 //var mplayer = spawn('/usr/bin/mplayer',['dvdnav:////dev/dvd', '-vo', 'yuv4mpeg:file=/home/jason/mdvd/video.y4m', '-slave']);
-var player = spawn('/usr/local/bin/play_title', ['/dev/dvd', '1', '1', '1']);
+var player = spawn('/home/jason/libdvdread-samples/mplay_title', ['/dev/dvd', '1', '1', '1']);
 
 // handlers
 function processCommand(req, res, next){
