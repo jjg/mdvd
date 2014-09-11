@@ -129,10 +129,10 @@ int main( int argc, char **argv )
 
 		printf("\n");
 
-		printf("]");
-
         ifoClose( vts_file );
     }
+
+	printf("]");
 
     ifoClose( ifo_file );
     DVDClose( dvd );

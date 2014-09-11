@@ -45,8 +45,26 @@ player.stdout.on('data', function(data){
 });
 */
 
+function getTitles(req, res, next){
+
+	var titleInfo = spawn('./title_info', ['/dev/dvd']);
+
+	titleInfo.stdout.on('data', function(data){
+
+		var titleInfoResponse = data.toString();
+
+		// all this conversion seems extranious, but it
+		// lets the output pass jsonlint without errors
+		var titleInfoObject = JSON.parse(titleInfoResponse);
+		
+		res.send(titleInfoObject);
+		return next();
+	});
+}
+
 // endpoints
 server.get({path:'/command/:commandName', version:'1.0.0'}, processCommand);
+server.get({path:'/titles', version:'1.0.0'}, getTitles);
 
 // static content
 server.get(/\/player\/?.*/, restify.serveStatic({
