@@ -61,7 +61,11 @@ int main( int argc, char **argv )
     }
     tt_srpt = ifo_file->tt_srpt;
 
-    printf( "There are %d titles.\n", tt_srpt->nr_of_srpts );
+    //printf( "There are %d titles.\n", tt_srpt->nr_of_srpts );
+	
+	// let's see if we can make this spit out JSON...
+	printf("[\n");
+
     for( i = 0; i < tt_srpt->nr_of_srpts; ++i ) {
         ifo_handle_t *vts_file;
         vts_ptt_srpt_t *vts_ptt_srpt;
@@ -71,12 +75,17 @@ int main( int argc, char **argv )
         vtsnum = tt_srpt->title[ i ].title_set_nr;
         ttnnum = tt_srpt->title[ i ].vts_ttn;
         chapts = tt_srpt->title[ i ].nr_of_ptts;
+
+		printf("{\"title\":\"%d\",\n", i + 1);
+		printf("\"vts\":\"%d\",\n", vtsnum);
+		printf("\"ttn\":\"%d\",\n", ttnnum);
+		printf("\"chapters\":[\n");
 	
-        printf( "\nTitle %d:\n", i + 1 );
-        printf( "\tIn VTS: %d [TTN %d]\n", vtsnum, ttnnum );
-        printf( "\n" );
-        printf( "\tTitle has %d chapters and %d angles\n", chapts,
-                tt_srpt->title[ i ].nr_of_angles );
+        //printf( "\nTitle %d:\n", i + 1 );
+        //printf( "\tIn VTS: %d [TTN %d]\n", vtsnum, ttnnum );
+        //printf( "\n" );
+        //printf( "\tTitle has %d chapters and %d angles\n", chapts,
+        //        tt_srpt->title[ i ].nr_of_angles );
 
         vts_file = ifoOpen( dvd, vtsnum );
         if( !vts_file ) {
@@ -94,12 +103,33 @@ int main( int argc, char **argv )
             pgn = vts_ptt_srpt->title[ ttnnum - 1 ].ptt[ j ].pgn;
             cur_pgc = vts_file->vts_pgcit->pgci_srp[ pgcnum - 1 ].pgc;
             start_cell = cur_pgc->program_map[ pgn - 1 ] - 1;
-	
+
+			printf("{\"chapter\":\"%d\"}", j);
+
+			if(j < chapts - 1){
+				printf(",");
+			}
+ 
+			printf("\n");
+			
+
+			/*	
             printf( "\tChapter %3d [PGC %2d, PG %2d] starts at Cell %2d [sector %x-%x]\n",
                     j, pgcnum, pgn, start_cell,
                     cur_pgc->cell_playback[ start_cell ].first_sector,
                     cur_pgc->cell_playback[ start_cell ].last_sector );
+			*/
         }
+
+		printf("]}");
+
+		if(i < tt_srpt->nr_of_srpts - 1){
+			printf(",");
+		}
+
+		printf("\n");
+
+		printf("]");
 
         ifoClose( vts_file );
     }
