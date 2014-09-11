@@ -4,7 +4,7 @@ CFLAGS=-Wall -O3 -g
 LDFLAGS=-ldvdread
 PREFIX=/usr/local
 
-BINS= mplay_title
+BINS= title_info mplay_title
 
 all:	$(BINS)
 
