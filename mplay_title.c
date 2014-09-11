@@ -56,8 +56,6 @@ int main( int argc, char **argv )
 	// file used to store mpeg output
 	FILE *output_fp;
 
-	//int output_fd = 0;
-
     int titleid, chapid, pgc_id, len, start_cell, cur_cell;
     unsigned int cur_pack;
     int angle, ttn, pgn, next_cell;
@@ -74,15 +72,13 @@ int main( int argc, char **argv )
     /**
      * Usage.
      */
-    if( argc != 5 ) {
+    if( argc != 6 ) {
         fprintf( stderr, "Usage: %s <dvd path> <title number> "
                          "<start chapter> <angle>\n\n"
                          "Title Number  [1-X]: Movie Title on Disc.\n"
                          "Start Chapter [1-X]: Chapter to start at.\n"
                          "Angle Number  [1-X]: Which angle to show.\n\n"
-                         "This app outputs an MPEG2 system stream.\n"
-                         "Make sure you redirect the output somewhere.\n\n"
-                         "Example: %s /dev/dvd 1 1 1 | xine stdin://mpeg2\n",
+                         "Example: %s /dev/dvd 1 1 1 output.mpeg\n",
                  argv[ 0 ], argv[ 0 ] );
         return -1;
     }
@@ -196,22 +192,8 @@ int main( int argc, char **argv )
 
 	// open output ile
 	printf("Opening output file...\n");
-	output_fp = fopen("mplay_title.out", "w");
+	output_fp = fopen( argv[ 5 ], "w");
 	printf("output file opened.\n");
-
-	/*
-	if (!output_fd) {
-		printf("Opening output...\n");
-		output_fd = open("mplay_title.out", O_CREAT | O_WRONLY, S_IRWXU | S_IRWXG);
-		//	output_fd = open("readdvd.out", O_CREAT | O_WRONLY, S_IRWXU | S_IRWXG);
-		if (output_fd == -1) {
-			printf("Error opening output\n");
-			return 4;
-		} else {
-			printf("Output file opened sucessfully");
-		}
-	}
-	*/
 
     /**
      * Playback by cell in this pgc, starting at the cell for our chapter.
@@ -316,8 +298,6 @@ int main( int argc, char **argv )
                 return -1;
             }
 
-            //fwrite( data, cur_output_size, DVD_VIDEO_LB_LEN, stdout);
-			//write(output_fd, data, cur_output_size);
 			fwrite(data, cur_output_size, DVD_VIDEO_LB_LEN, output_fp);
 
             cur_pack = next_vobu;
