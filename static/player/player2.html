@@ -59,41 +59,7 @@
 					<li id="resumeButton" >resume</li>
 					<li id="exitButton">exit</li>
 				</ul>
-				<ol id="titleList">
-					<!--
-					<li id="title1Button">Title 1
-						<ol id="title1Chapters" class="chapterListStyle">
-							<li>Chapter 1</li>
-							<li>Chapter 2</li>
-							<li>Chapter 3</li>
-							<li>Chapter 4</li>
-							<li>Chapter 5</li>
-							<li>Chapter 6</li>
-							<li>Chapter 7</li>
-							<li>Chapter 8</li>
-							<li>Chapter 9</li>
-							<li>Chapter 10</li>
-							<li>Chapter 12</li>
-							<li>Chapter 13</li>
-							<li>Chapter 14</li>
-							<li>Chapter 15</li>
-							<li>Chapter 16</li>
-						</ol>
-					</li>
-					<li id="title2">Title 2
-						<ol id="title2_chapters" class="chapterListStyle">
-							<li>Chapter 1</li>
-							<li>Chapter 2</li>
-						</ol>
-					</li>
-					<li id="title3">Title 3
-						<ol id="title3_chapters" class="chapterListStyle">
-							<li>Chapter 1</li>
-							<li>Chapter 2</li>
-						</ol>
-					</li>
-					-->
-				</ol>
+				<ol id="titleList"></ol>
 			</div>
 			
 			<video id="dvdstream" style="z-index:1;"></video>
@@ -123,6 +89,7 @@
 				
 				// debug
 				console.log('resumeButton click');
+				dvdstream.play()
 				
 			}
 			
@@ -131,24 +98,9 @@
 				// debug
 				console.log('exitButton click');
 				
+				// todo: redirect to title browse?
+				
 			}
-			
-			// todo: this is hard-wired for debugging, but will
-			// be dynamically assigned when lists are created
-			// on-the-fly
-			/*
-			var title1Button = document.getElementById('title1Button');
-			var title1Chapters = document.getElementById('title1Chapters');
-			title1Button.onclick = function(e){
-				
-				// debug
-				console.log('title1Button click');
-				
-				e.stopPropagation();
-				
-				title1Chapters.classList.add('showChapter');
-			}
-			*/
 			
 			// todo: load & play video
 			
@@ -171,6 +123,7 @@
 				
 				// todo: figure out how to capture the event that
 				// got us here so we can stop it from bubbling
+				// ie: event.stopPropagation();
 				
 				var chapterList = document.getElementById('title' + title + 'Chapters');
 				
