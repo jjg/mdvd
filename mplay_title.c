@@ -195,6 +195,7 @@ int main( int argc, char **argv )
 	output_fp = fopen( argv[ 5 ], "w");
 	printf("output file opened.\n");
 
+
     /**
      * Playback by cell in this pgc, starting at the cell for our chapter.
      */

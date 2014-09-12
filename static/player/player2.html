@@ -6,15 +6,15 @@
 				font-family: sans-serif;
 			}
 			.hudstyle{
-				position:relative;
+				position:absolute;
 				width:360px;
 				height:100%;
 				top:0;
 				background-color:white;
 				color:black;
 				opacity:0.5;
-				z-index:2;
 				overflow:scroll;
+				z-index:200;
 				-webkit-transition: 1s;
 				-moz-transition: 1s;
 				-ms-transition: 1s;
@@ -52,8 +52,10 @@
 		</style>
 	</head>
 	<body>
-		<div id="viewer" style="width:720px;height:480px;background-color:black;overflow:hidden;">
-			
+		<div id="viewer" style="width:720px;height:480px;overflow:hidden;">
+		
+			<video id="dvdstream" style="position:absolute;top:0;left:0;z-index:100"></video>
+	
 			<div id="hud" class="hudstyle">
 				<ul id="transportControls">
 					<li id="resumeButton" >resume</li>
@@ -62,11 +64,16 @@
 				<ol id="titleList"></ol>
 			</div>
 			
-			<video id="dvdstream" style="z-index:1;"></video>
-			
 		</div>
 		
+		<button id="init" onclick="init()">init</button>
+		<button id="loadVideo" onclick="loadVideo()">load</button>
+		<button id="play" onclick="play()">play</button>
+
 		<script>
+
+			// globals
+			var playing = false;
 		
 			// init ui controls
 			var viewer = document.getElementById('viewer');
@@ -75,14 +82,77 @@
 			var exitButton = document.getElementById('exitButton');
 			var titleList = document.getElementById('titleList');
 			var dvdstream = document.getElementById('dvdstream');
-			
+
+			// debug
+			function init(){
+
+				playChapter(1,1);
+
+			}
+
+			function loadVideo(){
+				dvdstream.setAttribute('src', 'http://10.0.1.63:8090/dvd.webm');
+			}
+
+			function play(){
+				dvdstream.play();
+			}
+
+			// video element events
+			dvdstream.onloadeddata = function(){
+				console.log('dvdstream loadeddata');
+			}
+
+			dvdstream.onabort = function(){
+				console.log('dvdstream abort');
+			}
+
+			// when this event fires, we can safely start playing
+			dvdstream.oncanplay = function(){
+				console.log('dvdstream canplay');
+
+				dvdstream.play();
+			}
+
+			dvdstream.onerror = function(){
+				console.log('dvdstream error');
+			}
+
+			dvdstream.onloadstart = function(){
+				console.log('dvdstream loadstart');
+			}
+
+			dvdstream.onplay = function(){
+				console.log('dvdstream play');
+			}
+
+			dvdstream.onplaying = function(){
+				console.log('dvdstream playing');
+			}
+
+			dvdstream.onstalled = function(){
+				console.log('dvdstream stalled');
+			}
+
+			dvdstream.onsuspend = function(){
+				console.log('dvdstream suspend');
+			}
+
+			dvdstream.onwaiting = function(){
+				console.log('dvdstream waiting');
+			}
+
+
+			/*
+	
 			// wire-up events
 			viewer.onclick = function(){
 				
 				// debug
 				console.log('viewer click');
-				
+
 				toggleHud();
+
 			}
 			
 			resumeButton.onclick = function(){
@@ -101,20 +171,53 @@
 				// todo: redirect to title browse?
 				
 			}
+
+			dvdstream.onplaying = function(){
+			
+				// debug
+				console.log('dvdstream is playing');
+
+				playing = true;
+
+			}
+
+			dvdstream.onended = function(){
+				
+				// debug
+				console.log('dvdstream has ended');
+				
+				playing = false;
+			}
 			
 			// todo: load & play video
-			
+		
+			*/
+
+	
 			// load title list
-			loadTitles();
+			//loadTitles();
 			
 			// utility functions
 			function toggleHud(){
 				
 				if(!hud.classList.contains('showhud')){
-					//dvdstream.pause();
+
+					// debug
+					console.log('pausing playback');
+					dvdstream.pause();
+
+					// debug
+					console.log('showing hud');
 					hud.classList.add('showhud');
+	
 				} else {
-					//dvdstream.play();
+					
+					// debug
+					console.log('resuming playback');
+					dvdstream.play();
+
+					// debug
+					console.log('hiding hud');
 					hud.classList.remove('showhud');
 				}
 			}
@@ -191,18 +294,32 @@
 				// play the selected chapter
 				var playChapterReq = new XMLHttpRequest();
 				playChapterReq.onreadystatechange = playChapterRes;
-				playChapterReq.open('GET', '/play/1/' + chapter + '/1', true);
+				playChapterReq.open('GET', '/play/' + title + '/' + chapter + '/1', true);
 				playChapterReq.send();
 
 				function playChapterRes(){
 					if(this.readyState === 4){
 						if(this.status === 200){
-							console.log('playing requested chapter');
+							console.log('API message: ' + this.responseText);
 
 							// todo: it may be necissary to re-initialize the client
 							// side of the playback viewer
-							dvdstream.load();
-							dvdstream.play();
+
+							// server-side needs a second to get ready, this is a hack,
+							// what should really happy is that we should wait for a
+							// signal from the server that the stream is ready, but at
+							// the moment that is a bit complicated, so this for now:
+
+							var bogusDelay = 1000;
+							setTimeout(function(){
+
+								dvdstream.setAttribute('src', 'http://10.0.1.63:8090/dvd.webm');
+
+							}, bogusDelay);
+
+							//dvdstream.setAttribute('src','http://10.0.1.63:8090/dvd.webm');
+							//dvdstream.load();
+							//dvdstream.play();
 
 						} else {
 							console.log('error requesting chapter');

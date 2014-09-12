@@ -2,7 +2,7 @@ var restify = require('restify');
 var spawn = require('child_process').spawn;
 
 // config
-var mediaPath = '/media/removable/UNTITLED/Cosmos S1 D1/';
+var mediaPath = '/dev/dvd';  //'/media/removable/UNTITLED/Cosmos S1 D1/';
 
 // init server
 var server = restify.createServer();
@@ -96,8 +96,21 @@ function play(req, res, next){
 		// play the specified title
 		player = spawn('./mplay_title', [mediaPath, title, chapter, angle, 'mplay_title.out']);
 
-		res.send('playing selection');
+		res.send('mplay_title started');
 		return next();
+
+		/*
+		player.stderr.on('data', function(data){
+
+			console.log(data.toString());
+
+			if(data.toString() === 'streaming'){
+				res.send('playing selection');
+				return next();
+			}
+
+		});
+		*/
 	}
 }
 
