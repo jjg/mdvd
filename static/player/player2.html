@@ -167,6 +167,16 @@
 				}
 			}
 			
+			function showChapters(title){
+				
+				// todo: figure out how to capture the event that
+				// got us here so we can stop it from bubbling
+				
+				var chapterList = document.getElementById('title' + title + 'Chapters');
+				
+				chapterList.classList.add('showChapter');
+			}
+			
 			function loadTitles(){
 
 				var titleReq = new XMLHttpRequest();
@@ -193,6 +203,7 @@
 								
 								// add chapters
 								var chapterList = document.createElement('ol');
+								chapterList.setAttribute('id', 'title' + title.title + 'Chapters');
 								chapterList.setAttribute('class', 'chapterListStyle');
 								
 								var chapters = titles[i].chapters;
@@ -205,7 +216,7 @@
 	
 									// add chapters to chapter list
 									var chapterListItem = document.createElement('li');
-									chapterListItem.setAttribute('onclick', 'playChapter(\'' + chapter.chapter + '\')');
+									chapterListItem.setAttribute('onclick', 'playChapter(\'' + title.title + '\',\'' + chapter.chapter + '\')');
 									chapterListItem.innerHTML = chapterName;
 									chapterList.appendChild(chapterListItem);
 								}
@@ -214,6 +225,34 @@
 								titleListItem.appendChild(chapterList);
 								titleList.appendChild(titleListItem);
 							}
+						}
+					}
+				}
+			}
+			
+			function playChapter(title, chapter){
+
+				// debug
+				console.log('requesting title: ' + title + ', chapter: ' + chapter);
+
+				// play the selected chapter
+				var playChapterReq = new XMLHttpRequest();
+				playChapterReq.onreadystatechange = playChapterRes;
+				playChapterReq.open('GET', '/play/1/' + chapter + '/1', true);
+				playChapterReq.send();
+
+				function playChapterRes(){
+					if(this.readyState === 4){
+						if(this.status === 200){
+							console.log('playing requested chapter');
+
+							// todo: it may be necissary to re-initialize the client
+							// side of the playback viewer
+							dvdstream.load();
+							dvdstream.play();
+
+						} else {
+							console.log('error requesting chapter');
 						}
 					}
 				}
