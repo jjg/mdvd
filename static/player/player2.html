@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+	<head>
+		<title>mDVD Player II</title>
+		<style>
+			body {
+				font-family: sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="viewer" style="width:720px;height:480px;background-color:black;">
+			
+			<div id="hud" style="width:50%;height:100%;background-color:white;color:black;opacity:0.5;margin-right:0;margin-left:auto;z-index:2;overflow:scroll;">
+				<ul id="transportControls">
+					<li id="resumeButton" >resume</li>
+					<li id="exitButton">exit</li>
+				</ul>
+				<ol id="titleList">
+					<li id="title1">Title 1
+						<ol id="title1_chapters">
+							<li>Chapter 1</li>
+							<li>Chapter 2</li>
+							<li>Chapter 3</li>
+							<li>Chapter 4</li>
+							<li>Chapter 5</li>
+							<li>Chapter 6</li>
+							<li>Chapter 7</li>
+							<li>Chapter 8</li>
+							<li>Chapter 9</li>
+							<li>Chapter 10</li>
+							<li>Chapter 12</li>
+							<li>Chapter 13</li>
+							<li>Chapter 14</li>
+							<li>Chapter 15</li>
+							<li>Chapter 16</li>
+						</ol>
+					</li>
+					<li id="title2">Title 2
+						<ol id="title2_chapters">
+							<li>Chapter 1</li>
+							<li>Chapter 2</li>
+						</ol>
+					</li>
+					<li id="title3">Title 3
+						<ol id="title3_chapters">
+							<li>Chapter 1</li>
+							<li>Chapter 2</li>
+						</ol>
+					</li>
+				</ol>
+			</div>
+			
+			<video id="dvdstream" style="z-index:1;"></video>
+			
+		</div>
+		
+		<script>
+		
+			// init ui controls
+			var viewer = document.getElementById('viewer');
+			var hud = document.getElementById('hud');
+			var resumeButton = document.getElementById('resumeButton');
+			var exitButton = document.getElementById('exitButton');
+			var titleList = document.getElementById('titleList');
+			var dvdstream = document.getElementById('dvdstream');
+			
+			// hide hud
+			hud.style.display = 'none';
+			
+			// todo: wire-up events
+			viewer.onclick = function(){
+				
+				// debug
+				console.log('viewer click');
+				
+				toggleHud();
+			}
+			
+			resumeButton.onclick = function(){
+				
+				// debug
+				console.log('resumeButton click');
+				
+			}
+			
+			exitButton.onclick = function(){
+				
+				// debug
+				console.log('exitButton click');
+				
+			}
+			
+			// todo: load & play video
+			
+			// todo: load chapter list
+			
+			// utility functions
+			function toggleHud(){
+				if(hud.style.display === 'none'){
+					dvdstream.pause();
+					hud.style.display = 'block';
+				} else {
+					dvdstream.play();
+					hud.style.display = 'none';
+				}
+			}
+			
+			
+		</script>
+		
+	</body>
+</html>

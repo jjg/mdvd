@@ -1,6 +1,9 @@
 var restify = require('restify');
 var spawn = require('child_process').spawn;
 
+// config
+var mediaPath = '/media/removable/UNTITLED/Cosmos S1 D1/';
+
 // init server
 var server = restify.createServer();
 
@@ -19,7 +22,7 @@ function processCommand(req, res, next){
 
 			// play the disc
  			if(!player){
-        		player = spawn('./mplay_title', ['/dev/dvd', '1', '2', '1', 'mplay_title.out']);
+        		player = spawn('./mplay_title', [mediaPath, '1', '2', '1', 'mplay_title.out']);
     		}
 			break;
 
@@ -59,7 +62,7 @@ function play(req, res, next){
 
 	console.log('title: ' + title);
 	console.log('chapter: ' + chapter);
-	console.log('angle: ' + angle);	
+	console.log('angle: ' + angle);
 
 	// stop the player if necissary
 	if(player){
@@ -91,7 +94,7 @@ function play(req, res, next){
 		console.log('starting new player');
 
 		// play the specified title
-		player = spawn('./mplay_title', ['/dev/dvd', title, chapter, angle, 'mplay_title.out']);
+		player = spawn('./mplay_title', [mediaPath, title, chapter, angle, 'mplay_title.out']);
 
 		res.send('playing selection');
 		return next();
@@ -100,7 +103,7 @@ function play(req, res, next){
 
 function getTitles(req, res, next){
 
-	var titleInfo = spawn('./title_info', ['/dev/dvd']);
+	var titleInfo = spawn('./title_info', [mediaPath]);
 
 	titleInfo.stdout.on('data', function(data){
 
