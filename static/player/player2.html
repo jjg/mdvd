@@ -9,7 +9,7 @@
 				position:relative;
 				width:360px;
 				height:100%;
-				left:3600px;
+				left:720px;
 				top:0;
 				background-color:white;
 				color:black;
@@ -17,6 +17,23 @@
 				z-index:2;
 				overflow:scroll;
 			}
+			.hudstyle.showhud {
+			  -webkit-transition: .5s;
+			  -moz-transition: .5s;
+			  -ms-transition: .5s;
+			  -o-transition: .5s;
+			  transition: .5s;
+			  left: 360px !important;
+			}
+			.hudstyle.hidehud {
+			  -webkit-transition: 1s;
+			  -moz-transition: 1s;
+			  -ms-transition: 1s;
+			  -o-transition: 1s;
+			  transition: 1s;
+			  left: 720px !important;
+			}
+			
 		</style>
 	</head>
 	<body>
@@ -77,7 +94,7 @@
 			var dvdstream = document.getElementById('dvdstream');
 			
 			// hide hud
-			hud.style.left = '720px'
+			//hud.style.left = '720px'
 			
 			//hud.style.display = 'none';
 			
@@ -112,17 +129,17 @@
 			function toggleHud(){
 				
 				// debug
-				console.log('hud.style.left: ' + hud.style.left);
+				console.log('hud.classList: ' + hud.classList);
 				
-				if(hud.style.left != '360px'){
-					dvdstream.pause();
-					hud.style.left = '360px';
+				if(!hud.classList.contains('showhud')){
+					//dvdstream.pause();
+					hud.classList.add('showhud');
 				} else {
-					dvdstream.play();
-					hud.style.left = '720px';
+					//dvdstream.play();
+					hud.classList.add('hidehud');
+					hud.classList.remove('showhud');
 				}
 			}
-			
 			
 		</script>
 		
