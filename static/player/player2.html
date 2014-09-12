@@ -10,9 +10,9 @@
 				width:360px;
 				height:100%;
 				top:0;
-				background-color:white;
-				color:black;
-				opacity:0.5;
+				background-color:black;
+				color:white;
+				opacity:0.7;
 				overflow:scroll;
 				z-index:200;
 				-webkit-transition: 1s;
@@ -52,7 +52,7 @@
 		</style>
 	</head>
 	<body>
-		<div id="viewer" style="width:720px;height:480px;overflow:hidden;">
+		<div id="viewer" style="position:absolute;width:720px;height:480px;overflow:hidden;">
 		
 			<video id="dvdstream" style="position:absolute;top:0;left:0;z-index:100"></video>
 	
@@ -65,10 +65,6 @@
 			</div>
 			
 		</div>
-		
-		<button id="init" onclick="init()">init</button>
-		<button id="loadVideo" onclick="loadVideo()">load</button>
-		<button id="play" onclick="play()">play</button>
 
 		<script>
 
@@ -83,7 +79,15 @@
 			var titleList = document.getElementById('titleList');
 			var dvdstream = document.getElementById('dvdstream');
 
-			// debug
+
+			// another dumb delay until we can figure out
+			// why we can't init everything at load immediately
+			console.log('init delay...');
+			var initDelay = 1000;
+            setTimeout(function(){
+				init();
+			}, initDelay);
+
 			function init(){
 
 				playChapter(1,1);
