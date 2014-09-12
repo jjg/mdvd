@@ -5,12 +5,24 @@
 			body {
 				font-family: sans-serif;
 			}
+			.hudstyle{
+				position:relative;
+				width:360px;
+				height:100%;
+				left:3600px;
+				top:0;
+				background-color:white;
+				color:black;
+				opacity:0.5;
+				z-index:2;
+				overflow:scroll;
+			}
 		</style>
 	</head>
 	<body>
-		<div id="viewer" style="width:720px;height:480px;background-color:black;">
+		<div id="viewer" style="width:720px;height:480px;background-color:black;overflow:hidden;">
 			
-			<div id="hud" style="width:50%;height:100%;background-color:white;color:black;opacity:0.5;margin-right:0;margin-left:auto;z-index:2;overflow:scroll;">
+			<div id="hud" class="hudstyle">
 				<ul id="transportControls">
 					<li id="resumeButton" >resume</li>
 					<li id="exitButton">exit</li>
@@ -65,7 +77,9 @@
 			var dvdstream = document.getElementById('dvdstream');
 			
 			// hide hud
-			hud.style.display = 'none';
+			hud.style.left = '720px'
+			
+			//hud.style.display = 'none';
 			
 			// todo: wire-up events
 			viewer.onclick = function(){
@@ -96,12 +110,16 @@
 			
 			// utility functions
 			function toggleHud(){
-				if(hud.style.display === 'none'){
+				
+				// debug
+				console.log('hud.style.left: ' + hud.style.left);
+				
+				if(hud.style.left != '360px'){
 					dvdstream.pause();
-					hud.style.display = 'block';
+					hud.style.left = '360px';
 				} else {
 					dvdstream.play();
-					hud.style.display = 'none';
+					hud.style.left = '720px';
 				}
 			}
 			
