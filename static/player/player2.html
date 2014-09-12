@@ -9,13 +9,18 @@
 				position:relative;
 				width:360px;
 				height:100%;
-				left:720px;
 				top:0;
 				background-color:white;
 				color:black;
 				opacity:0.5;
 				z-index:2;
 				overflow:scroll;
+				-webkit-transition: 1s;
+				-moz-transition: 1s;
+				-ms-transition: 1s;
+				-o-transition: 1s;
+				transition: 1s;
+				left: 720px !important;
 			}
 			.hudstyle.showhud {
 			  -webkit-transition: .5s;
@@ -24,14 +29,6 @@
 			  -o-transition: .5s;
 			  transition: .5s;
 			  left: 360px !important;
-			}
-			.hudstyle.hidehud {
-			  -webkit-transition: 1s;
-			  -moz-transition: 1s;
-			  -ms-transition: 1s;
-			  -o-transition: 1s;
-			  transition: 1s;
-			  left: 720px !important;
 			}
 			
 		</style>
@@ -93,12 +90,7 @@
 			var titleList = document.getElementById('titleList');
 			var dvdstream = document.getElementById('dvdstream');
 			
-			// hide hud
-			//hud.style.left = '720px'
-			
-			//hud.style.display = 'none';
-			
-			// todo: wire-up events
+			// wire-up events
 			viewer.onclick = function(){
 				
 				// debug
@@ -136,7 +128,7 @@
 					hud.classList.add('showhud');
 				} else {
 					//dvdstream.play();
-					hud.classList.add('hidehud');
+					//hud.classList.add('hidehud');
 					hud.classList.remove('showhud');
 				}
 			}
