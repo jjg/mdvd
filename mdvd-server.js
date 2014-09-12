@@ -64,18 +64,38 @@ function play(req, res, next){
 	// stop the player if necissary
 	if(player){
 
-		// debug
-		console.log('killing existing player');
+		console.log('looks like player is running, attempting to kill');
 
-		player.kill();
-		player = null;
+		player.on('exit', function(){
+
+			console.log('existing player killed');
+
+			//startNewPlayer();
+			res.send('killed old player only, not starting new');
+			return next();
+
+		});
+
+        // debug
+        console.log('killing existing player');
+
+        player.kill();
+        player = null;
+
+	} else {
+		startNewPlayer();
 	}
 
-	// play the specified title
-	player = spawn('./mplay_title', ['/dev/dvd', title, chapter, angle, 'mplay_title.out']);
+	function startNewPlayer(){
 
-	res.send(200);
-	return next();
+		console.log('starting new player');
+
+		// play the specified title
+		player = spawn('./mplay_title', ['/dev/dvd', title, chapter, angle, 'mplay_title.out']);
+
+		res.send('playing selection');
+		return next();
+	}
 }
 
 function getTitles(req, res, next){
