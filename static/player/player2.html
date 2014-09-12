@@ -60,6 +60,7 @@
 					<li id="exitButton">exit</li>
 				</ul>
 				<ol id="titleList">
+					<!--
 					<li id="title1Button">Title 1
 						<ol id="title1Chapters" class="chapterListStyle">
 							<li>Chapter 1</li>
@@ -91,6 +92,7 @@
 							<li>Chapter 2</li>
 						</ol>
 					</li>
+					-->
 				</ol>
 			</div>
 			
@@ -134,6 +136,7 @@
 			// todo: this is hard-wired for debugging, but will
 			// be dynamically assigned when lists are created
 			// on-the-fly
+			/*
 			var title1Button = document.getElementById('title1Button');
 			var title1Chapters = document.getElementById('title1Chapters');
 			title1Button.onclick = function(e){
@@ -145,10 +148,12 @@
 				
 				title1Chapters.classList.add('showChapter');
 			}
+			*/
 			
 			// todo: load & play video
 			
-			// todo: load chapter list
+			// load title list
+			loadTitles();
 			
 			// utility functions
 			function toggleHud(){
@@ -159,6 +164,58 @@
 				} else {
 					//dvdstream.play();
 					hud.classList.remove('showhud');
+				}
+			}
+			
+			function loadTitles(){
+
+				var titleReq = new XMLHttpRequest();
+
+				titleReq.onreadystatechange = titleRes;
+				titleReq.open('GET', '/titles', true);
+				titleReq.send();
+
+				function titleRes(){
+					if(this.readyState === 4){
+						if(this.status === 200){
+
+							var titles = JSON.parse(this.responseText);
+
+							// add titles
+							for(var i=0;i<titles.length;i++){
+								
+								var title = titles[i];
+								
+								var titleName = 'Title ' + title.title;
+								
+								var titleListItem = document.createElement('li');
+								titleListItem.setAttribute('onclick', 'showChapters(\'' + title.title + '\')');
+								
+								// add chapters
+								var chapterList = document.createElement('ol');
+								chapterList.setAttribute('class', 'chapterListStyle');
+								
+								var chapters = titles[i].chapters;
+
+								for(var j=0;j<chapters.length;j++){
+									
+									var chapter = chapters[j];
+	
+									var chapterName = 'Chapter ' +  chapter.chapter;
+	
+									// add chapters to chapter list
+									var chapterListItem = document.createElement('li');
+									chapterListItem.setAttribute('onclick', 'playChapter(\'' + chapter.chapter + '\')');
+									chapterListItem.innerHTML = chapterName;
+									chapterList.appendChild(chapterListItem);
+								}
+								
+								titleListItem.innerHTML = titleName;
+								titleListItem.appendChild(chapterList);
+								titleList.appendChild(titleListItem);
+							}
+						}
+					}
 				}
 			}
 			
