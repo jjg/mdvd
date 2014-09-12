@@ -30,6 +30,24 @@
 			  transition: .5s;
 			  left: 360px !important;
 			}
+			.chapterListStyle{
+				-webkit-transition: 1s;
+				-moz-transition: 1s;
+				-ms-transition: 1s;
+				-o-transition: 1s;
+				transition: 1s;
+				height:0;
+				overflow:hidden;
+			}
+			.chapterListStyle.showChapter{
+				-webkit-transition: 1s;
+				-moz-transition: 1s;
+				-ms-transition: 1s;
+				-o-transition: 1s;
+				transition: 1s;
+				height:400px;
+				overflow:scroll;
+			}
 			
 		</style>
 	</head>
@@ -42,8 +60,8 @@
 					<li id="exitButton">exit</li>
 				</ul>
 				<ol id="titleList">
-					<li id="title1">Title 1
-						<ol id="title1_chapters">
+					<li id="title1Button">Title 1
+						<ol id="title1Chapters" class="chapterListStyle">
 							<li>Chapter 1</li>
 							<li>Chapter 2</li>
 							<li>Chapter 3</li>
@@ -62,13 +80,13 @@
 						</ol>
 					</li>
 					<li id="title2">Title 2
-						<ol id="title2_chapters">
+						<ol id="title2_chapters" class="chapterListStyle">
 							<li>Chapter 1</li>
 							<li>Chapter 2</li>
 						</ol>
 					</li>
 					<li id="title3">Title 3
-						<ol id="title3_chapters">
+						<ol id="title3_chapters" class="chapterListStyle">
 							<li>Chapter 1</li>
 							<li>Chapter 2</li>
 						</ol>
@@ -113,6 +131,21 @@
 				
 			}
 			
+			// todo: this is hard-wired for debugging, but will
+			// be dynamically assigned when lists are created
+			// on-the-fly
+			var title1Button = document.getElementById('title1Button');
+			var title1Chapters = document.getElementById('title1Chapters');
+			title1Button.onclick = function(e){
+				
+				// debug
+				console.log('title1Button click');
+				
+				e.stopPropagation();
+				
+				title1Chapters.classList.add('showChapter');
+			}
+			
 			// todo: load & play video
 			
 			// todo: load chapter list
@@ -120,15 +153,11 @@
 			// utility functions
 			function toggleHud(){
 				
-				// debug
-				console.log('hud.classList: ' + hud.classList);
-				
 				if(!hud.classList.contains('showhud')){
 					//dvdstream.pause();
 					hud.classList.add('showhud');
 				} else {
 					//dvdstream.play();
-					//hud.classList.add('hidehud');
 					hud.classList.remove('showhud');
 				}
 			}
