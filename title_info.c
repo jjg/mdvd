@@ -104,7 +104,7 @@ int main( int argc, char **argv )
             cur_pgc = vts_file->vts_pgcit->pgci_srp[ pgcnum - 1 ].pgc;
             start_cell = cur_pgc->program_map[ pgn - 1 ] - 1;
 
-			printf("{\"chapter\":\"%d\"}", j);
+			printf("{\"chapter\":\"%d\"}", j + 1);
 
 			if(j < chapts - 1){
 				printf(",");
