@@ -73,8 +73,9 @@ function play(req, res, next){
 
 			console.log('existing player killed');
 
-			//startNewPlayer();
-			res.send('killed old player only, not starting new');
+			startNewPlayer();
+
+			res.send('new player started');
 			return next();
 
 		});
