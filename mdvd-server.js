@@ -2,7 +2,7 @@ var restify = require('restify');
 var spawn = require('child_process').spawn;
 
 // config
-var mediaPath = '/dev/dvd';  //'/media/removable/UNTITLED/Cosmos S1 D1/';
+var mediaPath = '/home/murfie/media/Bonnevilleproject/'; //'/dev/dvd';  //'/media/removable/UNTITLED/Cosmos S1 D1/';
 
 // init server
 var server = restify.createServer();
@@ -143,7 +143,7 @@ server.get(/\/player\/?.*/, restify.serveStatic({
 }));
 
 // start the api server
-var port = process.env.port || 5001;
+var port = process.env.port || 5000;
 server.listen(port, function(){
 	console.log('%s listening at ', server.name, server.url);
 });

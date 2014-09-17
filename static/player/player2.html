@@ -64,7 +64,7 @@
 			loadTitles();
 
 			// try the media stream just in case it's playing
-			dvdstream.setAttribute('src', 'http://10.0.1.63:8090/dvd.webm');
+			dvdstream.setAttribute('src', 'http://mdvd2.cloudapp.net:8090/dvd.webm');
 
 			// show the hud to pause playback or let them choose a chapter
 			toggleHud();
@@ -86,7 +86,7 @@
 			}
 
 			function loadVideo(){
-				dvdstream.setAttribute('src', 'http://10.0.1.63:8090/dvd.webm');
+				dvdstream.setAttribute('src', 'http://mdvd2.cloudapp.net:8090/dvd.webm');
 			}
 
 			function play(){
@@ -306,7 +306,7 @@
 							var bogusDelay = 1000;
 							setTimeout(function(){
 
-								dvdstream.setAttribute('src', 'http://10.0.1.63:8090/dvd.webm');
+								dvdstream.setAttribute('src', 'http://mdvd2.cloudapp.net:8090/dvd.webm');
 
 							}, bogusDelay);
 
