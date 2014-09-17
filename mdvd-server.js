@@ -2,10 +2,12 @@ var restify = require('restify');
 var spawn = require('child_process').spawn;
 
 // config
-var mediaPath = '/home/murfie/media/Bonnevilleproject/'; //'/dev/dvd';  //'/media/removable/UNTITLED/Cosmos S1 D1/';
+var baseImagePath = '/home/jason/Media/';
+var mediaPath = '/dev/dvd'; //'/home/jason/media/Bonnevilleproject/'; //'/dev/dvd';  //'/media/removable/UNTITLED/Cosmos S1 D1/';
 
 // init server
 var server = restify.createServer();
+server.use(restify.bodyParser({ mapParams: false }));
 
 // init mplayer
 var player = null;
@@ -132,10 +134,27 @@ function getTitles(req, res, next){
 	});
 }
 
+function loadImage(req, res, next){
+
+	var imageName = req.body.imagename;
+
+	mediaPath = baseImagePath + imageName;
+
+	// debug
+	console.log('loading ' + mediaPath);
+
+	res.send('image loaded');
+	return next();
+
+}
+
 // endpoints
 server.get({path:'/command/:commandName', version:'1.0.0'}, processCommand);
 server.get({path:'/titles', version:'1.0.0'}, getTitles);
 server.get({path:'/play/:title/:chapter/:angle', version:'1.0.0'}, play);
+
+// this method only used for testing with dvd images
+server.post({path:'/load', version:'1.0.0'},loadImage);
 
 // static content
 server.get(/\/player\/?.*/, restify.serveStatic({
