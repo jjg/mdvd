@@ -102,35 +102,45 @@ function play(req, res, next){
 		res.send('mplay_title started');
 		return next();
 
-		/*
+		
 		player.stderr.on('data', function(data){
 
 			console.log(data.toString());
 
+			/*
 			if(data.toString() === 'streaming'){
 				res.send('playing selection');
 				return next();
 			}
+			*/
 
 		});
-		*/
+		
 	}
 }
 
 function getTitles(req, res, next){
 
 	var titleInfo = spawn('./title_info', [mediaPath]);
+	var chunk = '';
 
 	titleInfo.stdout.on('data', function(data){
 
-		var titleInfoResponse = data.toString();
+		chunk = chunk +  data.toString();
 
-		// all this conversion seems extranious, but it
-		// lets the output pass jsonlint without errors
-		var titleInfoObject = JSON.parse(titleInfoResponse);
-		
+	});
+
+	titleInfo.on('exit', function(){
+
+		// debug
+		console.log('got end');
+
+		var titleInfoObject = JSON.parse(chunk);		
+	
 		res.send(titleInfoObject);
+	
 		return next();
+
 	});
 }
 
@@ -138,7 +148,7 @@ function loadImage(req, res, next){
 
 	var imageName = req.body.imagename;
 
-	mediaPath = baseImagePath + imageName;
+	mediaPath = baseImagePath + imageName + '/';
 
 	// debug
 	console.log('loading ' + mediaPath);
